@@ -1,15 +1,24 @@
 package com.jmy.animation;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+/**
+ * Demo演示帧动画、补间动画和属性动画
+ * 帧动画和补间动画推荐用xml实现
+ * 属性动画推荐用代码实现，因为有些起始属性值需要在代码中才能知道
+ * @author Administrator
+ *
+ */
 public class MainActivity extends Activity {
 
 	private ImageView view;
@@ -18,6 +27,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		view = (ImageView)findViewById(R.id.animationImageView);
+		
 	}
 	
 	//静态常量必须初始化
@@ -48,7 +58,7 @@ public class MainActivity extends Activity {
 			twwenAnimation();
 			break;
 		case R.id.menu_item3:
-			Toast.makeText(this, "OptonItem3", Toast.LENGTH_SHORT).show();
+			propertyAnimation();
 			break;
 			
 		}
@@ -65,6 +75,22 @@ public class MainActivity extends Activity {
 		view.setBackgroundResource(R.drawable.frame_animation);
 		Animation anim = AnimationUtils.loadAnimation(this, R.anim.tween_animation);
 		view.startAnimation(anim);
+		
+	}
+	public void propertyAnimation(){
+		view.setBackgroundResource(R.drawable.frame_animation);
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(
+				ObjectAnimator.ofFloat(view, "rotationX", 0,360),
+				ObjectAnimator.ofFloat(view, "rotationY", 0,180),
+				ObjectAnimator.ofFloat(view, "rotation", 0,-90),
+				ObjectAnimator.ofFloat(view, "translationX", 0,90),
+				ObjectAnimator.ofFloat(view, "translationY", 0,90),
+				ObjectAnimator.ofFloat(view, "scaleX", 1,1.5f),
+				ObjectAnimator.ofFloat(view, "scaleY", 1,0.5f),
+				ObjectAnimator.ofFloat(view, "alpha", 1,0.25f)
+		);
+		set.start();
 	}
 	
 	
